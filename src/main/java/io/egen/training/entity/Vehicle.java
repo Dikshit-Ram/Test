@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class Vehicle {
+class Vehicle {
     private String vin;
     private String make;
     private String model;

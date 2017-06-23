@@ -1,8 +1,6 @@
 package io.egen.training.entity;
 
-/**
- * Created by diksh on 6/23/2017.
- */
+
 public class Alerts {
     private enum Alert{
         HIGH, MEDIUM, LOW
