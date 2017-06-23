@@ -13,4 +13,5 @@ public class Vehicle {
     private float maxFuelVolume;
     private Date lastServiceDate;
     private List<VehicleReading> vehicleReadings;
+    
 }
