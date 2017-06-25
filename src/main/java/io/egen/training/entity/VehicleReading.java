@@ -2,11 +2,14 @@ package io.egen.training.entity;
 
 import org.springframework.data.geo.Point;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
  * Created by diksh on 6/23/2017.
  */
+@Data
 public class VehicleReading {
     private Vehicle vehicle;
     private Point location;
@@ -21,6 +24,7 @@ public class VehicleReading {
     private Tires tires;
 }
 
+@Data
 class Tires{
     private byte frontLeft;
     private byte frontRight;
