@@ -15,7 +15,7 @@ public class Application extends AbstractAnnotationConfigDispatcherServletInitia
     protected Class<?>[] getServletConfigClasses() {return new Class[0];}
 
     @Override
-    protected String[] getServletMappings() { return new String[]{"/"}; }
+    protected String[] getServletMappings() { return new String[]{"/api/"}; }
 
     public static void main(String [] args){
         ApplicationContext context = SpringApplication.run(Application.class, args);
