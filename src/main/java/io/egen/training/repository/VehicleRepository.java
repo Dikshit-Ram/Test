@@ -1,4 +1,4 @@
-package com.egen.training.boot.repository;
+package io.egen.training.repository;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import io.egen.training.entity.Vehicle;

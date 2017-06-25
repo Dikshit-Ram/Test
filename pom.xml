@@ -32,13 +32,12 @@
             <artifactId>spring-context</artifactId>
             <version>4.3.9.RELEASE</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-mongodb -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>1.10.4.RELEASE</version>
         </dependency>
-<dependency>
+        <dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.8</version>
