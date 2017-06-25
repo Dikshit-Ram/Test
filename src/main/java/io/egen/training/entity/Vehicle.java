@@ -3,8 +3,10 @@ package io.egen.training.entity;
 import java.util.Date;
 import java.util.List;
 
+import lombok.Data;
 
-class Vehicle {
+@Data
+public class Vehicle {
     private String vin;
     private String make;
     private String model;
