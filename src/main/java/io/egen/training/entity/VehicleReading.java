@@ -3,6 +3,7 @@ package io.egen.training.entity;
 import org.springframework.data.geo.Point;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
  * Created by diksh on 6/23/2017.
  */
 @Data
+@Document
 public class VehicleReading {
     private Vehicle vehicle;
     private Point location;
