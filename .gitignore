@@ -1,15 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
+.idea
+*.iml
+build/
 *.class
-*.log
-*.ctxt
-.mtj.tmp/
-*.jar
-*.war
-*.ear
-*.zip
-*.tar.gz
-*.rar
-hs_err_pid*
+.settings
+.metadata
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -19,8 +14,3 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
-!/.mvn/wrapper/maven-wrapper.jar
-.idea
-*.iml
-target
-src/test/

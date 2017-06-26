@@ -2,9 +2,8 @@ package io.egen.training.repository;
 
 import io.egen.training.entity.VehicleReading;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- * Created by diksh on 6/24/2017.
- */
+@Repository
 public interface VehicleReadingRepository extends MongoRepository<VehicleReading, String> {
 }
