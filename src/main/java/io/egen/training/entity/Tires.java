@@ -2,13 +2,22 @@ package io.egen.training.entity;
 
 import lombok.Data;
 
-/**
- * Created by diksh on 6/26/2017.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 @Data
 public class Tires{
     private byte frontLeft;
     private byte frontRight;
     private byte rearLeft;
     private byte rearRight;
+    private List<Byte> tirePressures = new ArrayList<>();
+
+    public List<Byte> getTirePressures() {
+        tirePressures.clear();
+        tirePressures = new ArrayList<>(Arrays.asList(frontLeft, frontRight, rearLeft, rearRight));
+        return tirePressures;
+    }
 }
