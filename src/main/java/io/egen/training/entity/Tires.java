@@ -1,6 +1,7 @@
 package io.egen.training.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,6 +14,7 @@ public class Tires{
     private byte frontRight;
     private byte rearLeft;
     private byte rearRight;
+    @Transient
     private List<Byte> tirePressures = new ArrayList<>();
 
     public List<Byte> getTirePressures() {
