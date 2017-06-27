@@ -10,36 +10,31 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @SpringBootApplication
-public class Application   {
-    @Bean
+public class Application extends AbstractAnnotationConfigDispatcherServletInitializer  {
+    /*@Bean
     public DispatcherServlet dispatcherServlet() {
         return new DispatcherServlet();
     }
 
-    /**
-     * Register dispatcherServlet programmatically
-     *
-     * @return ServletRegistrationBean
-     */
     @Bean
     public ServletRegistrationBean dispatcherServletRegistration() {
 
         ServletRegistrationBean registration = new ServletRegistrationBean(
-                dispatcherServlet(), "/api/*");
+                dispatcherServlet(), "/api*//*");
 
         registration
                 .setName(DispatcherServletAutoConfiguration.DEFAULT_DISPATCHER_SERVLET_REGISTRATION_BEAN_NAME);
 
         return registration;
-    }
-  /*  @Override
+    }*/
+    @Override
     protected Class<?>[] getRootConfigClasses() {return new Class[]{Application.class};}
 
     @Override
     protected Class<?>[] getServletConfigClasses() {return new Class[0];}
 
     @Override
-   protected String[] getServletMappings() { return new String[]{"/api/"}; } */
+    protected String[] getServletMappings() { return new String[]{"api/*"}; }
 
     public static void main(String [] args){
         ApplicationContext context = SpringApplication.run(Application.class, args);

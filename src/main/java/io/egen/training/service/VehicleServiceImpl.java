@@ -1,13 +1,12 @@
 package io.egen.training.service;
 
-import io.egen.training.entity.Alerts;
+import io.egen.training.ExceptionHandling.BadRequest;
+import io.egen.training.ExceptionHandling.ResourceNotFound;
 import io.egen.training.entity.Vehicle;
-import io.egen.training.entity.VehicleReading;
-import io.egen.training.repository.AlertsRepository;
-import io.egen.training.repository.VehicleReadingRepository;
 import io.egen.training.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,107 +15,45 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Autowired
     VehicleRepository vehicleRepository;
-    @Autowired
-    VehicleReadingRepository vehicleReadingRepository;
-    @Autowired
-    AlertsRepository alertsRepository;
 
+    @Transactional
     public Vehicle save(Vehicle vehicle){
-        if(vehicle==null){
-            //error
+        if(vehicle.getVin() == null){
+            throw new BadRequest("Vehicle VIN cannot be null");
         }
         Vehicle vehicle1 = vehicleRepository.save(vehicle);
         return vehicle1;
     }
 
+    @Transactional
     public List<Vehicle> saveVehicles(List<Vehicle> vehicleList) {
-        if(vehicleList.isEmpty()){
-            //error
+        if(vehicleList.stream().filter(v -> (v.getVin()==null)).count() > 0){
+            throw new BadRequest("Vehicles must contain VIN");
         }
         List<Vehicle> vehicleList1 = vehicleRepository.save(vehicleList);
         return vehicleList1;
     }
 
+    @Transactional
     public List<Vehicle> findAllVehicles() {
         List<Vehicle> vehicleList1 = vehicleRepository.findAll();
         return vehicleList1;
     }
 
+    @Transactional
     public Vehicle findOneVehicle(String vin) {
         Vehicle vehicle = vehicleRepository.findOne(vin);
         if(vehicle == null){
-            //error
+            throw new ResourceNotFound("Vehicle cannot be found");
         }
         return vehicle;
     }
 
+    @Transactional
     public void deleteVehicle(Vehicle vehicle) {
         if(vehicle == null){
-            //error
+            throw new BadRequest("No such vehicle found to delete");
         }
         vehicleRepository.delete(vehicle);
     }
-
-    /*
-    * Vehicle Readings service implementation
-    * */
-    public List<VehicleReading> saveReadings(List<VehicleReading> vehicleReadingList) {
-        for (VehicleReading vehicleReading:
-             vehicleReadingList) {
-            Vehicle vehicle = vehicleRepository.findOne(vehicleReading.getVin());
-            createAlerts(vehicle, vehicleReading);
-        }
-        if(vehicleReadingList.isEmpty()){
-            // throw error
-        }
-        List<VehicleReading> vehicleReadingList1 = vehicleReadingRepository.save(vehicleReadingList);
-        return vehicleReadingList1;
-    }
-
-    public List<VehicleReading> findAllReadings() {
-        return vehicleReadingRepository.findAll();
-    }
-
-    public VehicleReading findOneReading(String vin) {
-        VehicleReading vehicleReading = vehicleReadingRepository.findOne(vin);
-        if(vehicleReading==null){
-            //error
-        }
-        return vehicleReading;
-    }
-
-    public void deleteVehicleReading(VehicleReading vehicleReading) {
-        if(findOneReading(vehicleReading.getVin())==null){
-            //error
-        }
-        vehicleReadingRepository.delete(vehicleReading);
-    }
-
-
-    private void createAlerts(Vehicle vehicle, VehicleReading vehicleReading) {
-        Alerts alerts = new Alerts();
-        List<Byte> tires = vehicleReading.getTires().getTirePressures();
-        if(vehicleReading.getEngineRpm() >= vehicle.getRedLineRpm()){
-            alerts.setVin(vehicle.getVin());
-            alerts.setFuelVolumeAlert(Alerts.Alert.HIGH);
-        }
-        if(vehicleReading.getFuelVolume() < (vehicle.getMaxFuelVolume() % 10)){
-            alerts.setVin(vehicle.getVin());
-            alerts.setFuelVolumeAlert(Alerts.Alert.MEDIUM);
-        }
-        if(tires.stream().filter(i->(i>36 || i<32)).count() > 0){
-            alerts.setVin(vehicle.getVin());
-            alerts.setTirePressureAlert(Alerts.Alert.LOW);
-        }
-        if(vehicleReading.isCheckEngineLightOn()){
-            alerts.setVin(vehicle.getVin());
-            alerts.setCheckEngineLightOnAlert(Alerts.Alert.LOW);
-        }
-        if(vehicleReading.isEngineCoolantLow()){
-            alerts.setVin(vehicle.getVin());
-            alerts.setEngineCoolantAlert(Alerts.Alert.LOW);
-        }
-        alertsRepository.save(alerts);
-    }
-
 }
