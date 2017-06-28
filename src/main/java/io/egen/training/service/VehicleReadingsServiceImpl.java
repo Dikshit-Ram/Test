@@ -57,11 +57,11 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
     }
 
     @Transactional
-    public void deleteVehicleReading(VehicleReading vehicleReading) {
-        if(findOneVehicleReadings(vehicleReading.getVin())== null){
+    public void deleteVehicleReadings(String vin) {
+        if(vehicleReadingRepository.findAllByVin(vin).isEmpty()){
             throw new BadRequest("No such vehicle reading found to delete");
         }
-        vehicleReadingRepository.delete(vehicleReading);
+        vehicleReadingRepository.delete(vin);
     }
 
 
