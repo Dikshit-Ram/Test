@@ -4,9 +4,8 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @Document
@@ -16,7 +15,7 @@ public class Alerts {
     }
     @Indexed
     private String vin;
-    private Timestamp timestamp;
+    private Date timestamp;
     private Alert engineRpmAlert;
     private Alert fuelVolumeAlert;
     private Alert tirePressureAlert;

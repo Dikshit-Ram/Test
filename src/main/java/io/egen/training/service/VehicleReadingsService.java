@@ -8,5 +8,5 @@ public interface VehicleReadingsService {
     List<VehicleReading> saveReadings(List<VehicleReading> vehicleReadingList);
     List<VehicleReading> findAllReadings();
     List<VehicleReading> findOneVehicleReadings(String vin);
-    void deleteVehicleReading(VehicleReading vehicleReading);
+    void deleteVehicleReadings(String vin);
 }

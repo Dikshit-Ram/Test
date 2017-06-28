@@ -1,13 +1,10 @@
 package io.egen.training.entity;
 
-import org.springframework.data.annotation.Id;
 import lombok.Data;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.sql.Timestamp;
-
+import java.util.Date;
 
 @Data
 @Document
@@ -16,7 +13,7 @@ public class VehicleReading {
     private String vin;
     private double longitude;
     private double latitude;
-    private Timestamp timestamp;
+    private Date timestamp;
     private double fuelVolume;
     private float speed;
     private short engineHp;
