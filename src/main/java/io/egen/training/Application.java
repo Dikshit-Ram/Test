@@ -6,10 +6,12 @@ import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfigura
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 @SpringBootApplication
+@EnableJms
 public class Application extends AbstractAnnotationConfigDispatcherServletInitializer  {
     /*@Bean
     public DispatcherServlet dispatcherServlet() {
