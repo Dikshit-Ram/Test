@@ -25,19 +25,23 @@ import java.util.List;
 @Service
 public class VehicleReadingsServiceImpl implements VehicleReadingsService {
 
-    @Autowired
     private VehicleRepository vehicleRepository;
-    @Autowired
     private VehicleReadingRepository vehicleReadingRepository;
-    @Autowired
     private AlertsService alertsService;
 
+    @Autowired
+    public VehicleReadingsServiceImpl(VehicleRepository vehicleRepository, VehicleReadingRepository vehicleReadingRepository, AlertsService alertsService) {
+        this.vehicleRepository = vehicleRepository;
+        this.vehicleReadingRepository = vehicleReadingRepository;
+        this.alertsService = alertsService;
+    }
+
     /*
-    * takes a list of vehicleReadings
-    * throws bad request if any reading doesn't have VIN
-    * creates alerts
-    * saves the readings to database
-    * */
+        * takes a list of vehicleReadings
+        * throws bad request if any reading doesn't have VIN
+        * creates alerts
+        * saves the readings to database
+        * */
     @Transactional
     public void saveReadings(final List<VehicleReading> vehicleReadingList) {
         if (vehicleReadingList.stream().filter(v -> (v.getVin() == null)).count() > 0) {

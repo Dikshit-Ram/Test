@@ -18,8 +18,13 @@ import java.util.List;
 @Service
 public class AlertsServiceImpl implements AlertsService {
 
-    @Autowired
+
     private AlertsRepository alertsRepository;
+
+    @Autowired
+    public AlertsServiceImpl(AlertsRepository alertsRepository) {
+        this.alertsRepository = alertsRepository;
+    }
 
     @Transactional
     public List<Alerts> findAll() {

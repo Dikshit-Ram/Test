@@ -1,5 +1,6 @@
 package io.egen.training.controller;
 
+import io.egen.training.Aspect.BoundaryLogger;
 import io.egen.training.entity.Vehicle;
 import io.egen.training.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,18 @@ import java.util.List;
 @RestController
 public class VehicleController {
 
-    @Autowired
+
     private VehicleService vehicleService;
+
+    @Autowired
+    public VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
 
     /*
     * PUTs JSON vehicle in database
     * */
+    @BoundaryLogger
     @RequestMapping(method = RequestMethod.PUT, value = "/vehicle")
     public void updateVehicle(@RequestBody Vehicle vehicle) {
         List<Vehicle> vehicleList = new ArrayList<>();
@@ -38,6 +45,7 @@ public class VehicleController {
     /*
     * PUT List of vehicles in JSON to database
     * */
+    @BoundaryLogger
     @RequestMapping(method = RequestMethod.PUT, value = "/vehicles")
     public void updateVehicles(@RequestBody List<Vehicle> vehicleList) {
         vehicleService.saveVehicles(vehicleList);
@@ -46,6 +54,7 @@ public class VehicleController {
     /*
     * GETs all vehicles in database
     * */
+    @BoundaryLogger
     @RequestMapping(method = RequestMethod.GET, value = "/find")
     public List<Vehicle> findAllVehicles() {
         return vehicleService.findAllVehicles();
@@ -55,16 +64,19 @@ public class VehicleController {
     * GETs one vehicle by taking vin as path variable
     * */
     @RequestMapping(method = RequestMethod.GET, value = "/find/{vin}")
-    public Vehicle findVehicle(@PathVariable("vin") String vin) {
+    @BoundaryLogger
+    public Vehicle findOneVehicle(@PathVariable("vin") String vin) {
         return vehicleService.findOneVehicle(vin);
     }
 
     /*
     * DELETEs vehicle using vin as path variable
     * */
+    @BoundaryLogger
     @RequestMapping(method = RequestMethod.DELETE, value = "/delete/{vin}")
     public void deleteVehicle(@PathVariable("vin") String vin) {
         vehicleService.deleteVehicle(vin);
     }
+
 
 }

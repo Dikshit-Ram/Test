@@ -1,24 +1,40 @@
 package io.egen.training.Aspect;
 
+import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 
-/**
- * Created by prane on 6/29/2017.
- */
 @Aspect
+@Component
 public class BoundaryLoggingInterceptor {
-  //  private static final Logger LOGGER = LoggerFactory.getLogger(BoundaryLoggingInterceptor.class);
+    private static Logger logger = Logger.getLogger(BoundaryLoggingInterceptor.class);
 
-    @Pointcut(value = "execution( public * io.egen.training..*(..))" )
-    public void logging(){
+    @Pointcut(value = "execution( public  * io.egen.training.controller.*.*(..))")
+    public void logging() {
     }
+
     @Before("logging() && @annotation(BoundaryLogger)")
-    public  void loggingAdvice(){
-        System.out.println("Logging method working");
+    public void loggingAdvice(JoinPoint joinPoint) {
+        log(joinPoint, "Enter: ");
     }
+
+    @AfterReturning("logging() && @annotation(BoundaryLogger) ")
+    public void logServiceAccess(JoinPoint joinPoint) {
+        log(joinPoint, "Exit: ");
+    }
+
+    private void log(JoinPoint jp, String String) {
+        if (logger.isInfoEnabled()) {
+            String Method = jp.getTarget().getClass().getName() + "." + jp.getSignature().getName();
+            StringBuilder builder = new StringBuilder(String);
+            builder.append(Method).append("()");
+            logger.info(builder.toString());
+        }
+    }
+
 }
