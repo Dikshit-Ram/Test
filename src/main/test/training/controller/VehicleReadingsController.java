@@ -1,6 +1,5 @@
 package io.egen.training.controller;
 
-import io.egen.training.Aspect.BoundaryLogger;
 import io.egen.training.entity.VehicleReading;
 import io.egen.training.service.VehicleReadingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +22,13 @@ import java.util.List;
 @CrossOrigin
 public class VehicleReadingsController {
 
-
+    @Autowired
     private VehicleReadingsService vehicleReadingsService;
 
-    @Autowired
-    public VehicleReadingsController(VehicleReadingsService vehicleReadingsService) {
-        this.vehicleReadingsService = vehicleReadingsService;
-    }
-
     /*
-        * mapped to /reading this method takes vehicleReading in request body by POST and JSON
-        * and adds it to database
-        * */
-    @BoundaryLogger
+    * mapped to /reading this method takes vehicleReading in request body by POST and JSON
+    * and adds it to database
+    * */
     @RequestMapping(method = RequestMethod.POST, value = "/reading")
     public void updateVehicleReading(@RequestBody VehicleReading vehicleReading) {
         List<VehicleReading> vehicleReadingList = new ArrayList<>();
@@ -47,7 +40,6 @@ public class VehicleReadingsController {
     * mapped to /readings this method takes List of vehicleReading in request body by POST and JSON
     * and adds it to database
     * */
-    @BoundaryLogger
     @RequestMapping(method = RequestMethod.POST, value = "/readings")
     public void updateVehicleReadings(@RequestBody List<VehicleReading> vehicleReadingList) {
         vehicleReadingsService.saveReadings(vehicleReadingList);
@@ -56,7 +48,6 @@ public class VehicleReadingsController {
     /*
     * mapped to GET /readings/find this method returns list of all vehicleReading in JSON
     * */
-    @BoundaryLogger
     @RequestMapping(method = RequestMethod.GET, value = "/readings/find")
     public List<VehicleReading> findAllVehicleReadings() {
         return vehicleReadingsService.findAllReadings();
@@ -65,7 +56,6 @@ public class VehicleReadingsController {
     /*
     * mapped to /readings/ this method returns list of all vehicleReading for a vin in path variable by GET
     * */
-    @BoundaryLogger
     @RequestMapping(method = RequestMethod.GET, value = "/readings/find/{vin}")
     public List<VehicleReading> findVehicleReading(@PathVariable("vin") String vin) {
         return vehicleReadingsService.findOneVehicleReadings(vin);
@@ -74,7 +64,6 @@ public class VehicleReadingsController {
     /*
     * DELETEs all readings of vehicle corresponding to vin
     * */
-    @BoundaryLogger
     @RequestMapping(method = RequestMethod.DELETE, value = "/readings/delete/{vin}")
     public void deleteVehicleReadings(@PathVariable String vin) {
         vehicleReadingsService.deleteVehicleReadings(vin);
@@ -83,7 +72,6 @@ public class VehicleReadingsController {
     /*
     * DELETEs one vehicel reading by taking vehicle reading in request body
     * */
-    @BoundaryLogger
     @RequestMapping(method = RequestMethod.DELETE, value = "/readings/delete")
     public void deleteOneVehicleReading(@RequestBody VehicleReading vehicleReading) {
         vehicleReadingsService.deleteOneVehicleReading(vehicleReading);

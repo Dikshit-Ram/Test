@@ -1,6 +1,5 @@
 package io.egen.training.service;
 
-import io.egen.training.Aspect.BoundaryLogger;
 import io.egen.training.ExceptionHandling.BadRequest;
 import io.egen.training.ExceptionHandling.ResourceNotFound;
 import io.egen.training.entity.Vehicle;
@@ -15,23 +14,19 @@ import java.util.List;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
-    
-    private VehicleRepository vehicleRepository;
-    private VehicleReadingRepository vehicleReadingRepository;
-    private AlertsRepository alertsRepository;
 
     @Autowired
-    public VehicleServiceImpl(VehicleRepository vehicleRepository, VehicleReadingRepository vehicleReadingRepository, AlertsRepository alertsRepository) {
-        this.vehicleRepository = vehicleRepository;
-        this.vehicleReadingRepository = vehicleReadingRepository;
-        this.alertsRepository = alertsRepository;
-    }
+    private VehicleRepository vehicleRepository;
+    @Autowired
+    private VehicleReadingRepository vehicleReadingRepository;
+    @Autowired
+    private AlertsRepository alertsRepository;
 
     /*
-        * takes list of vehicles
-        * if any vehicle VIN is null throws BadRequest
-        * else saves vehicle list
-        * */
+    * takes list of vehicles
+    * if any vehicle VIN is null throws BadRequest
+    * else saves vehicle list
+    * */
     @Transactional
     public void saveVehicles(List<Vehicle> vehicleList) {
         if (vehicleList.stream().filter(v -> (v.getVin() == null)).count() > 0) {
@@ -44,7 +39,6 @@ public class VehicleServiceImpl implements VehicleService {
     * find all vehicle in database
     * */
     @Transactional
-    @BoundaryLogger
     public List<Vehicle> findAllVehicles() {
         return vehicleRepository.findAll();
     }
@@ -54,7 +48,6 @@ public class VehicleServiceImpl implements VehicleService {
     * if no such vehicle has that VIN throws ResourceNotFound exception
     * */
     @Transactional
-    @BoundaryLogger
     public Vehicle findOneVehicle(String vin) {
         Vehicle vehicle = vehicleRepository.findOne(vin);
         if (vehicle == null) {
