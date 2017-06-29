@@ -35,8 +35,8 @@ public class VehicleReadingsController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/readings/delete")
-    public void deleteVehicleReading(@RequestBody VehicleReading vehicleReading){
-        vehicleReadingsService.deleteVehicleReading(vehicleReading);
+    public void deleteVehicleReading(@RequestBody String vin){
+        vehicleReadingsService.deleteVehicleReadings(vin);
     }
 
 }
