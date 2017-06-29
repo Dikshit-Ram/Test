@@ -25,7 +25,7 @@ public class Vehicle {
     private String make;
     private String model;
     private short year;
-    private short redLineRpm;
+    private short redlineRpm;
     private float maxFuelVolume;
     private Date lastServiceDate;
     @Transient

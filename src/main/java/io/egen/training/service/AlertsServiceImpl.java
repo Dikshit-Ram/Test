@@ -36,6 +36,15 @@ public class AlertsServiceImpl implements AlertsService {
         return alertsRepository.findAllByVin(vin);
     }
 
+    @Transactional
+    public void deleteAllAlertsByVehicleReadingId(String vrId){
+
+        alertsRepository.delete(vrId);
+    }
+    @Transactional
+    public void deleteAll(){
+        alertsRepository.deleteAll();
+    }
     /*
     * takes vehicle and vehicle reading
     * and checks for conditions
@@ -43,10 +52,10 @@ public class AlertsServiceImpl implements AlertsService {
     * stores in database
     * */
     @Transactional
-    public void createAlerts(final Vehicle vehicle, final VehicleReading vehicleReading) {
+    public Alerts createAlerts(final Vehicle vehicle, final VehicleReading vehicleReading) {
         Alerts alerts = new Alerts();
         final List<Byte> tires = vehicleReading.getTires().getTirePressures();
-        if (vehicleReading.getEngineRpm() >= vehicle.getRedLineRpm()) {
+        if (vehicleReading.getEngineRpm() >= vehicle.getRedlineRpm()) {
             alerts.setVin(vehicle.getVin());
             alerts.setEngineRpmAlert(Alerts.Alert.HIGH);
         }
@@ -66,7 +75,11 @@ public class AlertsServiceImpl implements AlertsService {
             alerts.setVin(vehicle.getVin());
             alerts.setEngineCoolantAlert(Alerts.Alert.LOW);
         }
-        alertsRepository.save(alerts);
+        if(alerts.getVin()!=null){
+            alerts.setAlertId(vehicleReading.getVehicleReadingId());
+            return alertsRepository.save(alerts);
+        }
+        return null;
     }
 
 }

@@ -1,6 +1,6 @@
 package io.egen.training.controller;
 
-import io.egen.training.Aspect.BoundaryLogger;
+import io.egen.training.aspect.BoundaryLogger;
 import io.egen.training.entity.Alerts;
 import io.egen.training.service.AlertsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,10 @@ public class AlertsController {
 
 
     private AlertsService alertsService;
+    @Autowired
+    public AlertsController(AlertsService alertsService){
+        this.alertsService = alertsService;
+    }
 
     @Autowired
     public AlertsController(AlertsService alertsService) {

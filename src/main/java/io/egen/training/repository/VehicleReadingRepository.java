@@ -13,7 +13,7 @@ import java.util.List;
  * deleteAllByVin deletes vehicle readings by given vin
  * */
 @Repository
-public interface VehicleReadingRepository extends MongoRepository<VehicleReading, ObjectId> {
+public interface VehicleReadingRepository extends MongoRepository<VehicleReading, String> {
     List<VehicleReading> findAllByVin(String vin);
 
     void deleteAllByVin(String vin);

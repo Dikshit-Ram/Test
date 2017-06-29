@@ -1,7 +1,7 @@
 package io.egen.training.service;
 
-import io.egen.training.ExceptionHandling.BadRequest;
-import io.egen.training.ExceptionHandling.ResourceNotFound;
+import io.egen.training.exceptionHandling.BadRequest;
+import io.egen.training.exceptionHandling.ResourceNotFound;
 import io.egen.training.entity.Vehicle;
 import io.egen.training.entity.VehicleReading;
 import io.egen.training.repository.VehicleReadingRepository;
@@ -50,6 +50,8 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
         for (VehicleReading vehicleReading :
                 vehicleReadingList) {
             final Vehicle vehicle = vehicleRepository.findOne(vehicleReading.getVin());
+            if(vehicle.getVin() == null)
+                throw new BadRequest("No associated vehicle found for given VIN: "+vehicleReading.getVin());
             alertsService.createAlerts(vehicle, vehicleReading);
         }
         vehicleReadingRepository.insert(vehicleReadingList);
@@ -88,6 +90,9 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
             throw new BadRequest("No such vehicle reading found to delete");
         }
         vehicleReadingRepository.deleteAllByVin(vin);
+        List<VehicleReading> vehicleReadingList = vehicleReadingRepository.findAllByVin(vin);
+        vehicleReadingList.forEach(v -> alertsService
+                .deleteAllAlertsByVehicleReadingId(v.getVehicleReadingId()));
     }
 
     /*
@@ -95,10 +100,18 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
     * if reading exist for given reading deletes reading
     * else throws BadRequest exception
     * */
+    @Transactional
     public void deleteOneVehicleReading(final VehicleReading vehicleReading) {
         if (!vehicleReadingRepository.findAllByVin(vehicleReading.getVin()).contains(vehicleReading)) {
             throw new BadRequest("No such vehicle reading found to delete");
         }
+        alertsService.deleteAllAlertsByVehicleReadingId(vehicleReading.getVehicleReadingId());
         vehicleReadingRepository.delete(vehicleReading);
+    }
+
+    @Transactional
+    public void deleteAll(){
+        alertsService.deleteAll();
+        vehicleReadingRepository.deleteAll();
     }
 }

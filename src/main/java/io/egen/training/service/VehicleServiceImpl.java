@@ -1,8 +1,8 @@
 package io.egen.training.service;
 
-import io.egen.training.Aspect.BoundaryLogger;
-import io.egen.training.ExceptionHandling.BadRequest;
-import io.egen.training.ExceptionHandling.ResourceNotFound;
+import io.egen.training.aspect.BoundaryLogger;
+import io.egen.training.exceptionHandling.BadRequest;
+import io.egen.training.exceptionHandling.ResourceNotFound;
 import io.egen.training.entity.Vehicle;
 import io.egen.training.repository.AlertsRepository;
 import io.egen.training.repository.VehicleReadingRepository;
@@ -77,5 +77,14 @@ public class VehicleServiceImpl implements VehicleService {
         vehicleRepository.delete(vehicle);
         vehicleReadingRepository.deleteAllByVin(vin);
         alertsRepository.deleteAllByVin(vin);
+    }
+    /*
+    * deletes all vehicle, readings and alerts corresponding to that VIN
+    * */
+    @Transactional
+    public void deleteAll(){
+        vehicleRepository.deleteAll();
+        vehicleReadingRepository.deleteAll();
+        alertsRepository.deleteAll();
     }
 }

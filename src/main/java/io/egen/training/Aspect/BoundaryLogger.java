@@ -1,4 +1,4 @@
-package io.egen.training.Aspect;
+package io.egen.training.aspect;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,4 +1,4 @@
-package io.egen.training.ExceptionHandling;
+package io.egen.training.exceptionHandling;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

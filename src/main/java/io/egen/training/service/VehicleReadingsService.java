@@ -17,4 +17,6 @@ public interface VehicleReadingsService {
     void deleteVehicleReadings(String vin);
 
     void deleteOneVehicleReading(VehicleReading vehicleReading);
+
+    void deleteAll();
 }

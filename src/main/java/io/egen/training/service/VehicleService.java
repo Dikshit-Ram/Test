@@ -16,4 +16,6 @@ public interface VehicleService {
     Vehicle findOneVehicle(String vin);
 
     void deleteVehicle(String vin);
+
+    void deleteAll();
 }

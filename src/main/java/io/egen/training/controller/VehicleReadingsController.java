@@ -1,12 +1,12 @@
 package io.egen.training.controller;
 
-import io.egen.training.Aspect.BoundaryLogger;
+import io.egen.training.aspect.BoundaryLogger;
 import io.egen.training.entity.VehicleReading;
 import io.egen.training.service.VehicleReadingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -38,9 +38,7 @@ public class VehicleReadingsController {
     @BoundaryLogger
     @RequestMapping(method = RequestMethod.POST, value = "/reading")
     public void updateVehicleReading(@RequestBody VehicleReading vehicleReading) {
-        List<VehicleReading> vehicleReadingList = new ArrayList<>();
-        vehicleReadingList.add(vehicleReading);
-        vehicleReadingsService.saveReadings(vehicleReadingList);
+        vehicleReadingsService.saveReadings(Arrays.asList(vehicleReading));
     }
 
     /*
