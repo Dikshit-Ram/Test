@@ -33,11 +33,11 @@ public class VehicleServiceImpl implements VehicleService {
         * else saves vehicle list
         * */
     @Transactional
-    public void saveVehicles(List<Vehicle> vehicleList) {
+    public List<Vehicle> saveVehicles(List<Vehicle> vehicleList) {
         if (vehicleList.stream().filter(v -> (v.getVin() == null)).count() > 0) {
             throw new BadRequest("Vehicles must contain VIN");
         }
-        vehicleRepository.save(vehicleList);
+        return vehicleRepository.save(vehicleList);
     }
 
     /*

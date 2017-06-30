@@ -9,15 +9,7 @@ import io.egen.training.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-
-/*
-*
-*
-* @transactional
-*log4j
-* */
 
 /*
 * VehicleReadingsServiceImpl implements from VehicleReadingsService
@@ -28,14 +20,12 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
     private VehicleRepository vehicleRepository;
     private VehicleReadingRepository vehicleReadingRepository;
     private AlertsService alertsService;
-
     @Autowired
     public VehicleReadingsServiceImpl(VehicleRepository vehicleRepository, VehicleReadingRepository vehicleReadingRepository, AlertsService alertsService) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleReadingRepository = vehicleReadingRepository;
         this.alertsService = alertsService;
     }
-
     /*
         * takes a list of vehicleReadings
         * throws bad request if any reading doesn't have VIN
@@ -43,20 +33,19 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
         * saves the readings to database
         * */
     @Transactional
-    public void saveReadings(final List<VehicleReading> vehicleReadingList) {
+    public List<VehicleReading> saveReadings(final List<VehicleReading> vehicleReadingList) {
         if (vehicleReadingList.stream().filter(v -> (v.getVin() == null)).count() > 0) {
             throw new BadRequest("Vehicle readings must contain VIN");
         }
         for (VehicleReading vehicleReading :
                 vehicleReadingList) {
             final Vehicle vehicle = vehicleRepository.findOne(vehicleReading.getVin());
-            if(vehicle.getVin() == null)
-                throw new BadRequest("No associated vehicle found for given VIN: "+vehicleReading.getVin());
+            if(vehicle == null)
+                throw new BadRequest("No associated vehicle found for given Reading's VIN: "+vehicleReading.getVin());
             alertsService.createAlerts(vehicle, vehicleReading);
         }
-        vehicleReadingRepository.insert(vehicleReadingList);
+        return vehicleReadingRepository.insert(vehicleReadingList);
     }
-
     /*
     * returns all vehicle readings in database
     * */
@@ -78,7 +67,6 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
         }
         return vehicleReading;
     }
-
     /*
     * takes VIN
     * if readings exist for given vin deletes all readings associated with the VIN
@@ -94,7 +82,6 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
         vehicleReadingList.forEach(v -> alertsService
                 .deleteAllAlertsByVehicleReadingId(v.getVehicleReadingId()));
     }
-
     /*
     * takes VehicleReading
     * if reading exist for given reading deletes reading
@@ -108,7 +95,9 @@ public class VehicleReadingsServiceImpl implements VehicleReadingsService {
         alertsService.deleteAllAlertsByVehicleReadingId(vehicleReading.getVehicleReadingId());
         vehicleReadingRepository.delete(vehicleReading);
     }
-
+    /*
+    * delete all readings and alerts
+    * */
     @Transactional
     public void deleteAll(){
         alertsService.deleteAll();

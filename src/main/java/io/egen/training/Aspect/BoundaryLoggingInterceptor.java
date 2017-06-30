@@ -7,8 +7,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
-
-
+/*
+* Aspect for providing logging signature
+* */
 @Aspect
 @Component
 public class BoundaryLoggingInterceptor {
@@ -28,7 +29,7 @@ public class BoundaryLoggingInterceptor {
         log(joinPoint, "Exit: ");
     }
 
-    private void log(JoinPoint jp, String String) {
+    private void log(final JoinPoint jp,final String String) {
         if (logger.isInfoEnabled()) {
             String Method = jp.getTarget().getClass().getName() + "." + jp.getSignature().getName();
             StringBuilder builder = new StringBuilder(String);
