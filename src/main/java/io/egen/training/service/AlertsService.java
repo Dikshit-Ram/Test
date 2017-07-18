@@ -16,4 +16,6 @@ public interface AlertsService {
     List<Alerts> findAll();
 
     List<Alerts> findAllByVin(String vin);
+
+    List<Alerts> hAlerts();
 }

@@ -68,5 +68,16 @@ public class AlertsServiceImpl implements AlertsService {
         }
         alertsRepository.save(alerts);
     }
+    @Override
+    public List<Alerts> hAlerts() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:sss");
+
+        Date start = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(start);
+        c.add(Calendar.HOUR,-2);
+        Date end = c.getTime();
+        return alertsRepository.findAlertsByTimestampBetween(end,start);
+    }
 
 }

@@ -15,4 +15,5 @@ public interface AlertsRepository extends MongoRepository<Alerts, ObjectId> {
     void deleteAllByVin(String vin);
 
     List<Alerts> findAllByVin(String vin);
+    List<Alerts> findAlertsByTimestampBetween(Date currdate, Date twohours);
 }
